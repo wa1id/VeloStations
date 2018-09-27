@@ -1,14 +1,19 @@
 package ap.edu.velostations;
 
 import android.app.ListActivity;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
+import org.osmdroid.util.GeoPoint;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -25,8 +30,8 @@ public class MainActivity extends ListActivity {
 
     private String jsonString;
     List stationNaam = new ArrayList<>();
-    List stationLoc = new ArrayList<>();
-    
+    GeoPoint g;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,6 +64,24 @@ public class MainActivity extends ListActivity {
                 android.R.layout.simple_list_item_1, stationNaam);
         setListAdapter(adapter);
 
+    }
+
+    @Override
+    protected void onListItemClick(ListView l, View v, int position, long id) {
+        String item = (String) getListAdapter().getItem(position);
+
+        try {
+            JSONArray array = new JSONArray(jsonString);
+            JSONObject obj = array.getJSONObject(position);
+            g = new GeoPoint(obj.getDouble("point_lat"), obj.getDouble("point_lng"));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        Intent mapIntent = new Intent(this, MapActivity.class);
+        mapIntent.putExtra("lat", g.getLatitude());
+        mapIntent.putExtra("lng", g.getLongitude());
+        startActivity(mapIntent);
     }
 
     private void initList(){
