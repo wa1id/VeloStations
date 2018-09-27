@@ -61,7 +61,7 @@ public class MapActivity extends Activity {
         mapView.setBuiltInZoomControls(true);
         mapView.setMultiTouchControls(true);
         IMapController mapController = mapView.getController();
-        mapController.setZoom(25.0);
+        mapController.setZoom(18.0);
         mapController.setCenter(g);
         addMarker(g);
         mapView.invalidate(); // redraw
