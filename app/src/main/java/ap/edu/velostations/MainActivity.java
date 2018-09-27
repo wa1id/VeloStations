@@ -25,7 +25,8 @@ public class MainActivity extends ListActivity {
 
     private String jsonString;
     List stationNaam = new ArrayList<>();
-
+    List stationLoc = new ArrayList<>();
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
